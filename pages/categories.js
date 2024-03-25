@@ -2,6 +2,29 @@ import Layout from "../components/Layout";
 import { useEffect, useState } from "react";
 import { withSwal } from "react-sweetalert2";
 import axios from "axios";
+import styled from "styled-components";
+
+const NewCategoryGrid = styled.div`
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0;
+`;
+
+const Input = styled.input`
+  margin-top: 5px;
+  width: 55%;
+  @media screen and (min-width: 768px) {
+    width: 300px;
+    margin-top: 5px;
+  }
+`;
+
+const Select = styled.select`
+  max-width: 55%;
+  @media screen and (min-width: 768px) {
+    width: 300px;
+  }
+`;
 
 const Categories = ({ swal }) => {
   const [name, setName] = useState("");
@@ -110,16 +133,18 @@ const Categories = ({ swal }) => {
   return (
     <Layout>
       <h1>Категории</h1>
-      <label>{editedCategory ? `Смени категорија` : "Креирај нова категорија"}</label>
+      <label>
+        {editedCategory ? `Смени категорија` : "Креирај нова категорија"}
+      </label>
       <form onSubmit={saveCategory}>
-        <div className="flex gap-1">
-          <input
+        <NewCategoryGrid>
+          <Input
             type="text"
             placeholder="Име на категорија"
             value={name}
             onChange={(event) => setName(event.target.value)}
           />
-          <select
+          <Select
             onChange={(ev) => setParentCategory(ev.target.value)}
             value={parentCategory}
           >
@@ -130,8 +155,8 @@ const Categories = ({ swal }) => {
                   {category.name}
                 </option>
               ))}
-          </select>
-        </div>
+          </Select>
+        </NewCategoryGrid>
         <div className="mb-1">
           {/* <label className="block">Properties</label>
           <button
@@ -193,7 +218,7 @@ const Categories = ({ swal }) => {
         </button>
       </form>
       {!editedCategory && (
-        <table className="categories mt-2">
+        <table className="basic mt-2">
           <thead>
             <tr>
               <td>Име на категорија</td>
@@ -207,10 +232,10 @@ const Categories = ({ swal }) => {
                 <tr key={category._id}>
                   <td>{category.name}</td>
                   <td>{category?.parent?.name}</td>
-                  <td className="flex gap-1">
+                  <td className="grid grid-cols-1 md:grid-cols-9 lg:grid-cols-9">
                     <button
                       onClick={() => editCategory(category)}
-                      className="btn-blue mb-1"
+                      className="btn-blue"
                     >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
