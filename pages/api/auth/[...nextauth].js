@@ -5,6 +5,7 @@ import clientPromise from "../../../lib/mongodb";
 
 const adminEmails = [
   "mirjanastojanova7@gmail.com",
+  "stojanovamirjana7@gmail.com",
   "bazilika.apteka@gmail.com",
   "ano.dimitrievski7@gmail.com",
 ];
@@ -20,8 +21,6 @@ export const authOptions = {
   adapter: MongoDBAdapter(clientPromise),
   callbacks: {
     session: ({ session, token, user }) => {
-      console.log(session?.user?.email);
-      console.log(adminEmails.includes(session?.user?.email));
       if (adminEmails.includes(session?.user?.email)) {
         return session;
       } else {
