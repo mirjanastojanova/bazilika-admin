@@ -141,7 +141,7 @@ const Categories = ({ swal }) => {
           >
             Add New Property
           </button> */}
-          {properties.length > 0 &&
+          {/* {properties.length > 0 &&
             properties.map((index, property) => (
               <div key={property.name} className="flex gap-1 mt-2">
                 <input
@@ -170,7 +170,7 @@ const Categories = ({ swal }) => {
                   Избриши
                 </button>
               </div>
-            ))}
+            ))} */}
         </div>
         <div className="flex gap-1">
           {editedCategory && (
@@ -193,7 +193,7 @@ const Categories = ({ swal }) => {
         </button>
       </form>
       {!editedCategory && (
-        <table className="basic mt-2">
+        <table className="categories mt-2">
           <thead>
             <tr>
               <td>Име на категорија</td>
@@ -210,7 +210,7 @@ const Categories = ({ swal }) => {
                   <td className="flex gap-1">
                     <button
                       onClick={() => editCategory(category)}
-                      className="btn-blue"
+                      className="btn-blue mb-1"
                     >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
