@@ -232,10 +232,10 @@ const Categories = ({ swal }) => {
                 <tr key={category._id}>
                   <td>{category.name}</td>
                   <td>{category?.parent?.name}</td>
-                  <td className="grid grid-cols-1 md:grid-cols-9 lg:grid-cols-9">
+                  <td className="">
                     <button
                       onClick={() => editCategory(category)}
-                      className="btn-blue"
+                      className="btn-blue mb-1"
                     >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
