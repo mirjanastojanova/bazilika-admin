@@ -20,7 +20,6 @@ const ProductForm = ({
   const [isUploading, setIsUploading] = useState(false);
   const [categories, setCategories] = useState([false]);
   const [category, setCategory] = useState(assignedCategory || "");
-  
 
   const router = useRouter();
 
@@ -69,6 +68,41 @@ const ProductForm = ({
     }
   };
 
+  const deleteImage = async (imageId) => {
+    setImages((prev) => {
+      const pos = prev.indexOf(imageId);
+      if (pos !== -1) {
+        // check if the id exists in the cart
+        return prev.filter((value, index) => index !== pos); // return all the values except the one that position is on
+      }
+      return prev;
+    });
+  };
+  const [hoveredImage, setHoveredImage] = useState(null);
+
+  const handleMouseEnter = (link) => {
+    setHoveredImage(link);
+  };
+
+  const handleMouseLeave = () => {
+    setHoveredImage(null);
+  };
+
+  const showDeleteButton = (link) => {
+    if (link === hoveredImage) {
+      return (
+        <button
+          type="button"
+          onClick={() => deleteImage(link)}
+          className="btn-red"
+        >
+          Избриши
+        </button>
+      );
+    }
+    return null;
+  };
+
   return (
     <form onSubmit={saveProduct}>
       <label>Име на производ</label>
@@ -93,8 +127,15 @@ const ProductForm = ({
         {/* arrow function with {} must have a return, and with () it shouldn't*/}
         {!!images?.length &&
           images.map((link) => (
-            <div key={link} className="inline-block h-24">
+            <div
+              key={link}
+              className="inline-block h-24"
+              onMouseEnter={() => handleMouseEnter(link)}
+              onMouseLeave={handleMouseLeave}
+            >
+              
               <img src={link} alt="" className="rounded-lg" />
+              {showDeleteButton(link)}
             </div>
           ))}
         {isUploading && (
@@ -102,6 +143,7 @@ const ProductForm = ({
             <Spinner />
           </div>
         )}
+
         <label
           className="w-24 h-24 text-center 
         flex flex-col items-center justify-center 
@@ -126,26 +168,28 @@ const ProductForm = ({
         </label>
         {!images?.length && <div>Нема слики за овој производ.</div>}
       </div>
-      <label>Опис на производот</label>
-      <textarea
-        placeholder="Опис"
-        value={description}
-        onChange={(event) => setDescription(event.target.value)}
-      ></textarea>
-      <label>Цена (МКД)</label>
-      <input
-        type="number"
-        placeholder="Цена"
-        value={price}
-        onChange={(event) => setPrice(event.target.value)}
-      />
-      <div className="flex gap-2">
-        <button type="submit" className="btn-primary">
-          Зачувај
-        </button>
-        <button onClick={cancelHandler} className="btn-secondary">
-          Откажи
-        </button>
+      <div className="mt-10">
+        <label>Опис на производот</label>
+        <textarea
+          placeholder="Опис"
+          value={description}
+          onChange={(event) => setDescription(event.target.value)}
+        ></textarea>
+        <label>Цена (МКД)</label>
+        <input
+          type="number"
+          placeholder="Цена"
+          value={price}
+          onChange={(event) => setPrice(event.target.value)}
+        />
+        <div className="flex gap-2">
+          <button type="submit" className="btn-primary">
+            Зачувај
+          </button>
+          <button onClick={cancelHandler} className="btn-secondary">
+            Откажи
+          </button>
+        </div>
       </div>
     </form>
   );
