@@ -9,6 +9,8 @@ const ProductSchema = new Schema(
       type: Number,
       required: true,
     },
+    newProductCheck : {type: Boolean},
+    popular : {type: Boolean},
     images: { type: [String] },
     category: { type: mongoose.Types.ObjectId, ref: "Category" },
   },

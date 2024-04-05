@@ -3,12 +3,15 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import Spinner from "./Spinner";
+import { Switch } from "@mui/material";
 
 const ProductForm = ({
   _id,
   title: existingTitle,
   description: existingDesc,
   price: existingPrice,
+  newProductCheck: existingStateNewProduct,
+  popular: existingStatePopular,
   images: existingImages,
   category: assignedCategory,
 }) => {
@@ -20,6 +23,10 @@ const ProductForm = ({
   const [isUploading, setIsUploading] = useState(false);
   const [categories, setCategories] = useState([false]);
   const [category, setCategory] = useState(assignedCategory || "");
+  const [newProductCheck, setNewProductCheck] = useState(
+    existingStateNewProduct || false
+  );
+  const [popular, setPopular] = useState(existingStatePopular || false);
 
   const router = useRouter();
 
@@ -33,7 +40,16 @@ const ProductForm = ({
     // the default behavior of submit is passing all parametar into the URl
     // because of that should use event.preventDefault();
     event.preventDefault();
-    const data = { title, description, price, images, category };
+    const data = {
+      title,
+      description,
+      price,
+      newProductCheck,
+      popular,
+      images,
+      category,
+    };
+    console.log(data);
     if (_id) {
       //update
       await axios.put("/api/products", { ...data, _id });
@@ -103,6 +119,14 @@ const ProductForm = ({
     return null;
   };
 
+  const handleNewProductCheck = (event) => {
+    setNewProductCheck(event.target.checked);
+  };
+
+  const handlePopular = (event) => {
+    setPopular(event.target.checked);
+  };
+
   return (
     <form onSubmit={saveProduct}>
       <label>Име на производ</label>
@@ -133,7 +157,6 @@ const ProductForm = ({
               onMouseEnter={() => handleMouseEnter(link)}
               onMouseLeave={handleMouseLeave}
             >
-              
               <img src={link} alt="" className="rounded-lg" />
               {showDeleteButton(link)}
             </div>
@@ -175,6 +198,12 @@ const ProductForm = ({
           value={description}
           onChange={(event) => setDescription(event.target.value)}
         ></textarea>
+        <label>Нов производ</label>
+        <Switch checked={newProductCheck} onChange={handleNewProductCheck} />
+        <br />
+        <label>Популарен</label>
+        <Switch checked={popular} onChange={handlePopular} />
+        <br />
         <label>Цена (МКД)</label>
         <input
           type="number"

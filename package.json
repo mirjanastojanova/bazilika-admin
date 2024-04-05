@@ -10,6 +10,11 @@
   },
   "dependencies": {
     "@auth/mongodb-adapter": "^2.4.0",
+    "@emotion/cache": "^11.11.0",
+    "@emotion/react": "^11.11.4",
+    "@emotion/styled": "^11.11.5",
+    "@mui/material": "^5.15.15",
+    "@mui/material-nextjs": "^5.15.11",
     "axios": "^1.6.7",
     "cloudinary": "^2.0.1",
     "mongodb": "^6.3.0",
