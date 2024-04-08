@@ -13,7 +13,7 @@ const DeleteActionPage = () => {
       return;
     }
     axios.get("/api/actions?id=" + id).then((response) => {
-      setProductInfo(response.data);
+      setActionInfo(response.data);
     });
   }, []);
   const goBack = () => {
@@ -21,12 +21,14 @@ const DeleteActionPage = () => {
   };
   const deleteProduct = async () => {
     await axios.delete("/api/actions?id=" + id);
+    // await axios.delete("/api/upload?id=" + id);
     goBack();
   };
   return (
     <Layout>
       <h1 className="text-center">
-        Дали сте сигурни дека сакате да го избришете овој производ <b>{actionInfo?.title}</b>?
+        Дали сте сигурни дека сакате да го избришете овој производ
+        <b>{actionInfo?.title}</b>?
       </h1>
       <div className="flex gap-2 justify-center">
         <button className="btn-red" onClick={deleteProduct}>

@@ -20,13 +20,19 @@ const DeleteProductPage = () => {
     router.push("/products");
   };
   const deleteProduct = async () => {
+    // await axios.delete("/api/upload?id=" + id, {
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //   },
+    // });
     await axios.delete("/api/products?id=" + id);
     goBack();
   };
   return (
     <Layout>
       <h1 className="text-center">
-        Дали сте сигурни дека сакате да го избришете овој производ <b>{productInfo?.title}</b>?
+        Дали сте сигурни дека сакате да го избришете овој производ{" "}
+        <b>{productInfo?.title}</b>?
       </h1>
       <div className="flex gap-2 justify-center">
         <button className="btn-red" onClick={deleteProduct}>
