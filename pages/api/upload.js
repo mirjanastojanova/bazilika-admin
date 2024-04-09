@@ -1,14 +1,13 @@
 import multiparty from "multiparty";
-
 import { v2 as cloudinary } from "cloudinary";
 import { mongooseConnect } from "../../lib/mongoose";
 import { isAdminRequest } from "./auth/[...nextauth]";
 
 const handle = async (req, res) => {
+  const { method } = req;
   await mongooseConnect();
   await isAdminRequest(req, res);
-  // Check this for Promise:
-  // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise
+
   const form = new multiparty.Form();
   const { fields, files } = await new Promise((resolve, reject) => {
     form.parse(req, (err, fields, files) => {
@@ -16,26 +15,39 @@ const handle = async (req, res) => {
       resolve({ fields, files });
     });
   });
+
   cloudinary.config({
     cloud_name: process.env.CLOUD_NAME,
     api_key: process.env.API_KEY,
     api_secret: process.env.API_SECRET,
   });
-  const links = [];
-  for (const file of files.file) {
-    const ext = file.originalFilename.split(".").pop();
-    const newFilename = Date.now() + "." + ext;
-    const urlToImage = await cloudinary.uploader.upload(
-      file.path,
-      { public_id: newFilename },
-      function (error, result) {
-        console.log(result);
-      }
-    );
-    links.push(urlToImage.url);
-  }
 
-  return res.json({ links });
+  const links = [];
+  const deletedImages = [];
+
+  if (method === "POST") {
+    for (const file of files.file) {
+      const ext = file.originalFilename.split(".").pop();
+      const newFilename = Date.now() + "." + ext;
+      const uploadedImage = await cloudinary.uploader.upload(file.path, {
+        public_id: newFilename,
+      });
+      links.push(uploadedImage.url);
+    }
+  } 
+  // else if (method === "DELETE") {
+  //   for (const productId of fields.deletedProductImages) {
+  //     const publicId = fields[`${productId}_public_id`];
+  //     try {
+  //       await cloudinary.uploader.destroy(publicId);
+  //       deletedImages.push(publicId);
+  //     } catch (error) {
+  //       console.error("Error deleting image:", error);
+  //     }
+  //   }
+  // }
+
+  return res.json({ links, deletedImages });
 };
 
 export const config = {
