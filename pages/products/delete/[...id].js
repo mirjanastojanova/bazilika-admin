@@ -8,6 +8,7 @@ const DeleteProductPage = () => {
   const router = useRouter();
   const [productInfo, setProductInfo] = useState();
   const { id } = router.query;
+
   useEffect(() => {
     if (!id) {
       return;
