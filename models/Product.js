@@ -11,6 +11,7 @@ const ProductSchema = new Schema(
     },
     newProductCheck : {type: Boolean},
     popular : {type: Boolean},
+    featured: { type: Boolean },
     images: { type: [String] },
     category: { type: mongoose.Types.ObjectId, ref: "Category" },
   },
