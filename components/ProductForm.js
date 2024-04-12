@@ -12,6 +12,7 @@ const ProductForm = ({
   price: existingPrice,
   newProductCheck: existingStateNewProduct,
   popular: existingStatePopular,
+  featured: existingFeatured,
   images: existingImages,
   category: assignedCategory,
 }) => {
@@ -27,6 +28,7 @@ const ProductForm = ({
     existingStateNewProduct || false
   );
   const [popular, setPopular] = useState(existingStatePopular || false);
+  const [featured, setFeatured] = useState(existingFeatured || false);
 
   const router = useRouter();
 
@@ -46,6 +48,7 @@ const ProductForm = ({
       price,
       newProductCheck,
       popular,
+      featured,
       images,
       category,
     };
@@ -127,6 +130,10 @@ const ProductForm = ({
     setPopular(event.target.checked);
   };
 
+  const handleFeatured = (event) => {
+    setFeatured(event.target.checked);
+  };
+
   return (
     <form onSubmit={saveProduct}>
       <label>Име на производ</label>
@@ -203,6 +210,9 @@ const ProductForm = ({
         <br />
         <label>Популарен</label>
         <Switch checked={popular} onChange={handlePopular} />
+        <br />
+        <label>Истакнат</label>
+        <Switch checked={featured} onChange={handleFeatured} />
         <br />
         <label>Цена (МКД)</label>
         <input

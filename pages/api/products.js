@@ -22,6 +22,7 @@ export default async function handler(req, res) {
       price,
       newProductCheck,
       popular,
+      featured,
       images,
       category,
     } = req.body;
@@ -31,6 +32,7 @@ export default async function handler(req, res) {
       price,
       newProductCheck,
       popular,
+      featured,
       images,
       category,
     });
@@ -44,6 +46,7 @@ export default async function handler(req, res) {
       price,
       newProductCheck,
       popular,
+      featured,
       images,
       category,
     } = req.body;
@@ -55,6 +58,7 @@ export default async function handler(req, res) {
         price: price,
         newProductCheck: newProductCheck,
         popular: popular,
+        featured: featured,
         images: images,
         category: category,
       }
